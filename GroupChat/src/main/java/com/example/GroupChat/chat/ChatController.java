@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 public class ChatController {
 
     @MessageMapping("/chat.sendMessage")
-    @SendTo("/topic/public ")
+    @SendTo("/topic/public")
     public ChatMessage sendMessage(
             @Payload ChatMessage chatMessage
     ){
