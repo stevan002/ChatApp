@@ -3,7 +3,7 @@
 var usernamePage = document.querySelector("#username-page");
 var chatPage = document.querySelector("#chat-page");
 var usernameForm = document.querySelector("#usernameForm");
-var messageForm = document.querySelector("#usernameForm");
+var messageForm = document.querySelector("#messageForm");
 var messageInput = document.querySelector("#message");
 var messageArea = document.querySelector("#messageArea");
 var connectingElement = document.querySelector(".connecting");
@@ -17,7 +17,7 @@ var colors = [
 ];
 
 function connect(event){
-    username = document.querySelector('#name').value().trim();
+    username = document.querySelector('#name').value.trim();
 
     if(username) {
         usernamePage.classList.add('hidden');
@@ -33,7 +33,7 @@ function connect(event){
 
 function onConnect() {
     //subscribe to the public topic
-    stompClient.subscribe('/topic/public', onMessageRecevied);
+    stompClient.subscribe('/topic/public', onMessageReceived);
 
     stompClient.send('/app/chat.addUser',
         {},
@@ -48,7 +48,7 @@ function onError() {
     connectingElement.style.color = 'red';
 }
 
-function onMessageRecevied(payload){
+function onMessageReceived(payload){
     var message = JSON.parse(payload.body);
 
     var messageElement = document.createElement('li');
@@ -90,13 +90,12 @@ function onMessageRecevied(payload){
 
 function sendMessage(event){
 
-    var messageContent = messageInput.trim();
-
+    var messageContent = messageInput.value.trim();
 
     if(messageContent && stompClient){
         var chatMessage = {
             sender: username,
-            content: messageContent,
+            content: messageInput.value,
             type: 'CHAT'
         };
         stompClient.send(
@@ -104,7 +103,7 @@ function sendMessage(event){
             {},
             JSON.stringify(chatMessage)
         );
-        messageInput.content = '';
+        messageInput.value = '';
     }
     event.preventDefault();
 
